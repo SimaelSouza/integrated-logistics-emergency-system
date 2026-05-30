@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.integratedlogisticsemergencysystem/br.com.logisticsystem.HelloApplication
+                                com.example.integratedlogisticsemergencysystem/br.com.logisticsystem.app.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
