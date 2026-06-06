@@ -6,37 +6,35 @@ import java.util.UUID;
 public class Atendimento {
 
     private final UUID id;
-
     private String nomeSolicitante;
-
     private EnumPrioridade prioridade;
+    private LocalDateTime horarioSolicitacao;
+    private EnumTipo tipoOcorrencia;
 
-    private LocalDateTime horario;
-
-    private EnumTipo tipo;
-
-    public Atendimento(String nomeSolicitante, EnumPrioridade prioridade, LocalDateTime horario, EnumTipo tipo) {
-        if (nomeSolicitante == null || nomeSolicitante.isBlank()) {
-            throw new IllegalArgumentException("Nome do solicitante é obrigatório.");
-        }
+    public Atendimento(String nomeSolicitante, EnumPrioridade prioridade,
+                       LocalDateTime horarioSolicitacao, EnumTipo tipoOcorrencia) {
+        validarNomeSolicitante(nomeSolicitante);
+        validarPrioridade(prioridade);
+        validarHorarioSolicitacao(horarioSolicitacao);
+        validarTipoOcorrencia(tipoOcorrencia);
 
         this.id = UUID.randomUUID();
         this.nomeSolicitante = nomeSolicitante;
         this.prioridade = prioridade;
-        this.horario = horario;
-        this.tipo = tipo;
+        this.horarioSolicitacao = horarioSolicitacao;
+        this.tipoOcorrencia = tipoOcorrencia;
     }
 
     public UUID getId() {
         return id;
     }
 
-
     public String getNomeSolicitante() {
         return nomeSolicitante;
     }
 
     public void setNomeSolicitante(String nomeSolicitante) {
+        validarNomeSolicitante(nomeSolicitante);
         this.nomeSolicitante = nomeSolicitante;
     }
 
@@ -45,23 +43,50 @@ public class Atendimento {
     }
 
     public void setPrioridade(EnumPrioridade prioridade) {
+        validarPrioridade(prioridade);
         this.prioridade = prioridade;
     }
 
-    public LocalDateTime getHorario() {
-        return horario;
+    public LocalDateTime getHorarioSolicitacao() {
+        return horarioSolicitacao;
     }
 
-    public void setHorario(LocalDateTime horario) {
-        this.horario = horario;
+    public void setHorarioSolicitacao(LocalDateTime horarioSolicitacao) {
+        validarHorarioSolicitacao(horarioSolicitacao);
+        this.horarioSolicitacao = horarioSolicitacao;
     }
 
-    public EnumTipo getTipo() {
-        return tipo;
+    public EnumTipo getTipoOcorrencia() {
+        return tipoOcorrencia;
     }
 
-    public void setTipo(EnumTipo tipo) {
-        this.tipo = tipo;
+    public void setTipoOcorrencia(EnumTipo tipoOcorrencia) {
+        validarTipoOcorrencia(tipoOcorrencia);
+        this.tipoOcorrencia = tipoOcorrencia;
+    }
+
+    private void validarNomeSolicitante(String nomeSolicitante) {
+        if (nomeSolicitante == null || nomeSolicitante.isBlank()) {
+            throw new IllegalArgumentException("Nome do solicitante e obrigatorio.");
+        }
+    }
+
+    private void validarPrioridade(EnumPrioridade prioridade) {
+        if (prioridade == null) {
+            throw new IllegalArgumentException("Prioridade e obrigatoria.");
+        }
+    }
+
+    private void validarHorarioSolicitacao(LocalDateTime horarioSolicitacao) {
+        if (horarioSolicitacao == null) {
+            throw new IllegalArgumentException("Horario da solicitacao e obrigatorio.");
+        }
+    }
+
+    private void validarTipoOcorrencia(EnumTipo tipoOcorrencia) {
+        if (tipoOcorrencia == null) {
+            throw new IllegalArgumentException("Tipo da ocorrencia e obrigatorio.");
+        }
     }
 
     @Override
@@ -70,8 +95,8 @@ public class Atendimento {
                 "id=" + id +
                 ", nomeSolicitante='" + nomeSolicitante + '\'' +
                 ", prioridade=" + prioridade +
-                ", horario=" + horario +
-                ", tipo=" + tipo +
+                ", horarioSolicitacao=" + horarioSolicitacao +
+                ", tipoOcorrencia=" + tipoOcorrencia +
                 '}';
     }
 }
