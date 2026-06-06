@@ -24,8 +24,32 @@ public class Fila {
             }
         }
     }
+    public void reorganizarFila(){
+        for (int i =0; i <capacidade; i ++){
+            if(atendimentos[i] == null && atendimentos[i+1] != null){
+                atendimentos[i]=atendimentos[i+1];
+            }
+        }
+    }
+    public void remocaoPorAtendimento(Atendimento A) {
+        for (int i = 0; i < capacidade; i++) {
+            if (atendimentos[i] == A) {
+                atendimentos[i] = null;
+                break;
+            }
+        }
+    }
+    public void tempoMedioEspera(){
+        long inicio = System.nanoTime();
+        visualizaFila();
+        long fim = System.nanoTime();
+        long tempoDecorrido = fim - inicio;
 
-
-
+        System.out.println("Tempo de execução: " + tempoDecorrido + " nanossegundos");
+        }
 
 }
+
+
+
+
