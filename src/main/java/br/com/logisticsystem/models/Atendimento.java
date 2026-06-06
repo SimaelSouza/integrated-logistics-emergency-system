@@ -8,20 +8,18 @@ public class Atendimento {
     private final UUID id;
     private String nomeSolicitante;
     private EnumPrioridade prioridade;
-    private LocalDateTime horarioSolicitacao;
+    private final LocalDateTime horarioSolicitacao;
     private EnumTipo tipoOcorrencia;
 
-    public Atendimento(String nomeSolicitante, EnumPrioridade prioridade,
-                       LocalDateTime horarioSolicitacao, EnumTipo tipoOcorrencia) {
+    public Atendimento(String nomeSolicitante, EnumPrioridade prioridade, EnumTipo tipoOcorrencia) {
         validarNomeSolicitante(nomeSolicitante);
         validarPrioridade(prioridade);
-        validarHorarioSolicitacao(horarioSolicitacao);
         validarTipoOcorrencia(tipoOcorrencia);
 
         this.id = UUID.randomUUID();
         this.nomeSolicitante = nomeSolicitante;
         this.prioridade = prioridade;
-        this.horarioSolicitacao = horarioSolicitacao;
+        this.horarioSolicitacao = LocalDateTime.now();
         this.tipoOcorrencia = tipoOcorrencia;
     }
 
@@ -49,11 +47,6 @@ public class Atendimento {
 
     public LocalDateTime getHorarioSolicitacao() {
         return horarioSolicitacao;
-    }
-
-    public void setHorarioSolicitacao(LocalDateTime horarioSolicitacao) {
-        validarHorarioSolicitacao(horarioSolicitacao);
-        this.horarioSolicitacao = horarioSolicitacao;
     }
 
     public EnumTipo getTipoOcorrencia() {
