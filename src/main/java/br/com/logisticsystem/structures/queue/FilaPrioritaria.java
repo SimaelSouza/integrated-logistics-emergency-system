@@ -15,12 +15,14 @@ public class FilaPrioritaria {
         if (isFull()) {
             throw new IllegalStateException("Fila Cheia!!");
         }
-
+        if (atendimento.getPrioridade() == EnumPrioridade.SEM_PRIORIDADE) {
+            throw new IllegalArgumentException("A fila prioritária não aceita atendimentos SEM_PRIORIDADE!");
+        }
         atendimentos[fim] = atendimento;
         fim++;
-
         int i = fim - 1;
-        while (i > 0 && obterPeso(atendimentos[i].getPrioridade()) > obterPeso(atendimentos[i - 1].getPrioridade())) {
+
+        while (i > 0 && atendimentos[i].getPrioridade().getNivel() > atendimentos[i - 1].getPrioridade().getNivel()) {
             Atendimento temp = atendimentos[i];
             atendimentos[i] = atendimentos[i - 1];
             atendimentos[i - 1] = temp;
@@ -85,12 +87,5 @@ public class FilaPrioritaria {
             }
         }
     }
-    private int obterPeso(EnumPrioridade prioridade) {
-        switch (prioridade) {
-            case ALTA: return 3;
-            case MEDIA: return 2;
-            case BAIXA: return 1;
-            default: return 0;
-        }
-    }
+
 }
