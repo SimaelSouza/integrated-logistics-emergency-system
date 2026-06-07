@@ -3,32 +3,53 @@ package br.com.logisticsystem.structures.queue;
 import br.com.logisticsystem.models.Atendimento;
 
 public class Fila {
-
-    public Fila(int capacidade) {}
-
-    public void enqueue(Atendimento atendimento) {}
-
-    public Atendimento dequeue() {
-        return null;
+    private int capacidade;
+    private Atendimento[] atendimentos;
+    public Fila(int capacidade) {
+        this.capacidade=capacidade;
+        this.atendimentos = new Atendimento[capacidade];
     }
-
-    public Atendimento peek() {
-        return null;
+    public void visualizaFila(){
+        for (int i =0 ; i<capacidade; i++){
+            if(atendimentos[i] != null){
+            System.out.println(atendimentos[i]);
+            } else {continue;}
+        }
     }
-
-    public Atendimento[] listar() {
-        return null;
+    public void remocao(){
+        for (int i =0; i <capacidade; i ++){
+            if(atendimentos[i] != null){
+                atendimentos[i]=null;
+                break;
+            }
+        }
     }
-
-    public int getTamanho() {
-        return 0;
+    public void reorganizarFila(){
+        for (int i =0; i <capacidade; i ++){
+            if(atendimentos[i] == null && atendimentos[i+1] != null){
+                atendimentos[i]=atendimentos[i+1];
+            }
+        }
     }
-
-    public boolean isEmpty() {
-        return false;
+    public void remocaoPorAtendimento(Atendimento A) {
+        for (int i = 0; i < capacidade; i++) {
+            if (atendimentos[i] == A) {
+                atendimentos[i] = null;
+                break;
+            }
+        }
     }
+    public void tempoMedioEspera(){
+        long inicio = System.nanoTime();
+        visualizaFila();
+        long fim = System.nanoTime();
+        long tempoDecorrido = fim - inicio;
 
-    public boolean isFull() {
-        return false;
-    }
+        System.out.println("Tempo de execução: " + tempoDecorrido + " nanossegundos");
+        }
+
 }
+
+
+
+
