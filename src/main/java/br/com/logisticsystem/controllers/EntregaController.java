@@ -1,4 +1,4 @@
 package br.com.logisticsystem.controllers;
 
-public class OrdenacaoController {
+public class EntregaController {
 }
