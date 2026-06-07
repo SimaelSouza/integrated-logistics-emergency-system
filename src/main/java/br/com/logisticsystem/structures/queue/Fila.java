@@ -3,51 +3,100 @@ package br.com.logisticsystem.structures.queue;
 import br.com.logisticsystem.models.Atendimento;
 
 public class Fila {
-    private int capacidade;
+
     private Atendimento[] atendimentos;
+    private int fim;
+
     public Fila(int capacidade) {
-        this.capacidade=capacidade;
-        this.atendimentos = new Atendimento[capacidade];
+        atendimentos = new Atendimento[capacidade];
+        fim = 0;
     }
-    public void visualizaFila(){
-        for (int i =0 ; i<capacidade; i++){
-            if(atendimentos[i] != null){
-            System.out.println(atendimentos[i]);
-            } else {continue;}
+
+
+    public void enqueue(Atendimento atendimento) {
+        if(isFull()){
+            throw new IllegalStateException("Fila Cheia!!");
         }
-    }
-    public void remocao(){
-        for (int i =0; i <capacidade; i ++){
-            if(atendimentos[i] != null){
-                atendimentos[i]=null;
+
+        for(int i=0; i<atendimentos.length; i++){
+            if(atendimentos[i] == null){
+                atendimentos[i] = atendimento;
+                fim++;
                 break;
             }
         }
     }
-    public void reorganizarFila(){
-        for (int i =0; i <capacidade; i ++){
-            if(atendimentos[i] == null && atendimentos[i+1] != null){
-                atendimentos[i]=atendimentos[i+1];
-            }
+
+    public Atendimento dequeue() {
+        if(isEmpty()){
+            System.out.println("A fila está vazia!");
+            return null;
         }
-    }
-    public void remocaoPorAtendimento(Atendimento A) {
-        for (int i = 0; i < capacidade; i++) {
-            if (atendimentos[i] == A) {
+
+        for (int i = 0; i < atendimentos.length; i++) {
+            if(atendimentos[i] != null){
+                Atendimento atendimento = atendimentos[i];
                 atendimentos[i] = null;
-                break;
+                fim--;
+                reorganizar();
+                return atendimento;
+            }
+        }
+        return null;
+    }
+
+    public Atendimento peek() {
+        if(isEmpty()){
+            System.out.println("A fila está vazia!");
+            return null;
+        }
+
+        for (int i = 0; i < atendimentos.length; i++) {
+            if(atendimentos[i] != null){
+                return atendimentos[i];
+            }
+        }
+        return null;
+    }
+
+    public Atendimento[] listar() {
+
+        System.out.println("Listando Fila simples de atendimentos");
+        for(int i=0; i<atendimentos.length; i++){
+            if(atendimentos[i] != null){
+                System.out.println("Atendimento " + i + ": " + atendimentos[i]);
+            }
+        }
+
+        return atendimentos;
+    }
+
+    public boolean isEmpty() {
+        return fim == 0;
+    }
+
+    public boolean isFull() {
+        return fim == atendimentos.length;
+    }
+
+    public int getTamanho() {
+        return fim;
+    }
+
+    private void reorganizar() {
+        int destino = 0;
+
+        for (int origem = 0; origem < atendimentos.length; origem++) {
+            if (atendimentos[origem] != null) {
+                atendimentos[destino] = atendimentos[origem];
+
+                if (origem != destino) {
+                    atendimentos[origem] = null;
+                }
+                destino++;
             }
         }
     }
-    public void tempoMedioEspera(){
-        long inicio = System.nanoTime();
-        visualizaFila();
-        long fim = System.nanoTime();
-        long tempoDecorrido = fim - inicio;
-
-        System.out.println("Tempo de execução: " + tempoDecorrido + " nanossegundos");
-        }
-
 }
 
 
