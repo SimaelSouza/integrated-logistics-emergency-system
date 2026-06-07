@@ -88,11 +88,15 @@ integrated-logistics-emergency-system/
 │   │   │   │   ├── AtendimentoController.java
 │   │   │   │   ├── PedidoController.java
 │   │   │   │   ├── HistoricoController.java
-│   │   │   │   ├── OrdenacaoController.java
+│   │   │   │   ├── EntregaController.java
 │   │   │   │   └── RelatorioController.java
 │   │   │   │
 │   │   │   ├── models/
 │   │   │   │   ├── Atendimento.java
+│   │   │   │   ├── Entrega.java
+│   │   │   │   ├── EnumPrioridade.java
+│   │   │   │   ├── EnumStatus.java
+│   │   │   │   ├── EnumTipo.java
 │   │   │   │   ├── Pedido.java
 │   │   │   │   ├── Operacao.java
 │   │   │   │   ├── Relatorio.java
@@ -100,6 +104,7 @@ integrated-logistics-emergency-system/
 │   │   │   │
 │   │   │   ├── services/
 │   │   │   │   ├── AtendimentoService.java
+│   │   │   │   ├── EntregaService.java
 │   │   │   │   ├── PedidoService.java
 │   │   │   │   ├── HistoricoService.java
 │   │   │   │   ├── OrdenacaoService.java
@@ -110,12 +115,12 @@ integrated-logistics-emergency-system/
 │   │   │   │
 │   │   │   │   ├── queue/
 │   │   │   │   │   ├── Fila.java
-│   │   │   │   │   ├── FilaPrioritaria.java
-│   │   │   │   │   └── NoFila.java
+│   │   │   │   │   └── FilaPrioritaria.java
+│   │   │   │   │   
 │   │   │   │   │
 │   │   │   │   ├── stack/
-│   │   │   │   │   ├── Pilha.java
-│   │   │   │   │   └── NoPilha.java
+│   │   │   │   │   └── Pilha.java
+│   │   │   │   │  
 │   │   │   │   │
 │   │   │   │   ├── singlylinkedlist/
 │   │   │   │   │   ├── ListaSimples.java
@@ -158,7 +163,7 @@ integrated-logistics-emergency-system/
 │   │       │   ├── atendimento-view.fxml
 │   │       │   ├── pedidos-view.fxml
 │   │       │   ├── historico-view.fxml
-│   │       │   ├── ordenacao-view.fxml
+│   │       │   ├── entrega-view.fxml
 │   │       │   └── relatorio-view.fxml
 │   │       │
 │   │       ├── css/
