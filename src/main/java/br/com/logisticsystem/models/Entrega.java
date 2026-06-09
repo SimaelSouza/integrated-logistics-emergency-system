@@ -54,7 +54,7 @@ public class Entrega {
     }
 
     public void setPrioridade(EnumPrioridade prioridade) {
-        validarRota(rota);
+        validarPrioridade(prioridade);
         this.prioridade = prioridade;
     }
 
