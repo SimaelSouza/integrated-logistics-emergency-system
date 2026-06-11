@@ -53,7 +53,7 @@ public class FilaPrioritaria {
     }
 
     public Atendimento[] listar() {
-        System.out.println("Listando Fila simples de atendimentos");
+        System.out.println("Listando Fila Prioritária de atendimentos");
         Atendimento[] elementosAtuais = new Atendimento[fim];
         for (int i = 0; i < fim; i++) {
             System.out.println("Atendimento " + i + ": " + atendimentos[i]);
