@@ -1,20 +1,25 @@
 package br.com.logisticsystem.structures.singlylinkedlist;
 
 public class NoSimples<T> {
-
-    private T dado;
+    private T elemento;
     private NoSimples<T> proximo;
 
-    public NoSimples(T dado) {
-        this.dado = dado;
+    public NoSimples(T elemento) {
+        this.elemento = elemento;
+        this.proximo = null;
     }
 
-    public T getDado() {
-        return dado;
+    public NoSimples(T elemento, NoSimples<T> proximo) {
+        this.elemento = elemento;
+        this.proximo = proximo;
     }
 
-    public void setDado(T dado) {
-        this.dado = dado;
+    public T getElemento() {
+        return elemento;
+    }
+
+    public void setElemento(T elemento) {
+        this.elemento = elemento;
     }
 
     public NoSimples<T> getProximo() {
