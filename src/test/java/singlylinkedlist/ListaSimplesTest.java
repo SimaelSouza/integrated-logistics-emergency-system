@@ -33,8 +33,8 @@ class ListaSimplesTest {
     @Test
     void deveInserirNoInicioDaLista() {
 
-        lista.inserirInicio(pedido1);
-        lista.inserirInicio(pedido2);
+        lista.inserirNoInicio(pedido1);
+        lista.inserirNoInicio(pedido2);
 
         assertEquals(pedido2, lista.buscar(0));
         assertEquals(pedido1, lista.buscar(1));
@@ -44,8 +44,8 @@ class ListaSimplesTest {
     @Test
     void deveInserirNoFimDaLista() {
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido2);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido2);
 
         assertEquals(pedido1, lista.buscar(0));
         assertEquals(pedido2, lista.buscar(1));
@@ -55,8 +55,8 @@ class ListaSimplesTest {
     @Test
     void deveInserirEmPosicaoEspecifica() {
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido3);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido3);
 
         lista.inserir(1, pedido2);
 
@@ -68,9 +68,9 @@ class ListaSimplesTest {
     @Test
     void deveRemoverElementoPorPosicao() {
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido2);
-        lista.inserirFim(pedido3);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido2);
+        lista.inserirNoFim(pedido3);
 
         Pedido removido = lista.remover(1);
 
@@ -81,8 +81,8 @@ class ListaSimplesTest {
     @Test
     void deveBuscarElementoPorPosicao() {
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido2);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido2);
 
         assertEquals(pedido1, lista.buscar(0));
         assertEquals(pedido2, lista.buscar(1));
@@ -91,7 +91,7 @@ class ListaSimplesTest {
     @Test
     void deveAtualizarElementoPorPosicao() {
 
-        lista.inserirFim(pedido1);
+        lista.inserirNoFim(pedido1);
 
         lista.atualizar(0, pedido2);
 
@@ -103,8 +103,8 @@ class ListaSimplesTest {
 
         assertEquals(0, lista.getTamanho());
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido2);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido2);
 
         assertEquals(2, lista.getTamanho());
 
@@ -116,15 +116,15 @@ class ListaSimplesTest {
     @Test
     void deveListarElementosNaOrdemDaLista() {
 
-        lista.inserirFim(pedido1);
-        lista.inserirFim(pedido2);
-        lista.inserirFim(pedido3);
+        lista.inserirNoFim(pedido1);
+        lista.inserirNoFim(pedido2);
+        lista.inserirNoFim(pedido3);
 
-        String resultado = lista.listar();
+        Object[] elementos = lista.listar();
 
-        assertTrue(resultado.contains(pedido1.toString()));
-        assertTrue(resultado.contains(pedido2.toString()));
-        assertTrue(resultado.contains(pedido3.toString()));
+        assertEquals(pedido1, elementos[0]);
+        assertEquals(pedido2, elementos[1]);
+        assertEquals(pedido3, elementos[2]);
     }
 
     @Test
