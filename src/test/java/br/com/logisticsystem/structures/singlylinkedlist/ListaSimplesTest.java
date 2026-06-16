@@ -1,4 +1,4 @@
-package singlylinkedlist;
+package br.com.logisticsystem.structures.singlylinkedlist;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
