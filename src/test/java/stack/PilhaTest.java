@@ -7,6 +7,8 @@ import br.com.logisticsystem.structures.stack.Pilha;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PilhaTest {
@@ -21,9 +23,10 @@ class PilhaTest {
     void setUp() {
         pilha = new Pilha<>(10);
 
-        operacao1 = new Operacao(TipoOperacao.CADASTRAR_PEDIDO, null, "Pedido A", "Pedido A criado");
-        operacao2 = new Operacao(TipoOperacao.ALTERAR_ROTA_ENTREGA, "Pedido A", "Pedido B", "Pedido atualizado para B");
-        operacao3 = new Operacao(TipoOperacao.REMOVER_PEDIDO, "Pedido B", null, "Pedido B removido");
+        UUID uuid = UUID.randomUUID();
+        operacao1 = new Operacao(TipoOperacao.CADASTRAR_PEDIDO, uuid, null, "Pedido A", "Pedido A criado");
+        operacao2 = new Operacao(TipoOperacao.ALTERAR_ROTA_ENTREGA, uuid, "Pedido A", "Pedido B", "Pedido atualizado para B");
+        operacao3 = new Operacao(TipoOperacao.REMOVER_PEDIDO, uuid, "Pedido B", null, "Pedido B removido");
     }
 
     // ── construtor ─────────────────────────────────────────────────────────────
