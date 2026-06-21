@@ -1,8 +1,11 @@
 package br.com.logisticsystem.algorithms.linear;
 
+import br.com.logisticsystem.utils.Estatisticas;
+
 public class RadixSort {
-    public static void sort(int[] array) {
+    public static void ordenar(int[] array, Estatisticas estatisticas) {
         if (array.length == 0) return;
+
         int max = array[0];
         for (int val : array) if (val > max) max = val;
 
@@ -15,6 +18,7 @@ public class RadixSort {
             for (int i = array.length - 1; i >= 0; i--) {
                 output[count[(array[i] / exp) % 10] - 1] = array[i];
                 count[(array[i] / exp) % 10]--;
+                estatisticas.incrementarTrocas();
             }
             System.arraycopy(output, 0, array, 0, array.length);
         }
