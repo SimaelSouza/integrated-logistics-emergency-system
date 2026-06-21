@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="br.com.logisticsystem.controllers.EntregaController"
+            styleClass="root-pane"
+            prefWidth="980" prefHeight="640">
+
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="18" right="28" bottom="18" left="28"/>
+            </padding>
+
+            <Button text="←  Voltar" styleClass="back-button" onAction="#voltarMenu"/>
+
+            <VBox alignment="CENTER_LEFT" spacing="2">
+                <Label text="ENTREGAS" styleClass="brand-title"/>
+                <Label text="Módulo 03 — Rotas e status de despacho" styleClass="brand-subtitle"/>
+            </VBox>
+
+            <HBox HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="desfazerButton" text="↶ Desfazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#desfazer" disable="true"/>
+            <Button fx:id="refazerButton" text="↷ Refazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#refazer" disable="true"/>
+
+            <HBox styleClass="status-pill" alignment="CENTER" spacing="8">
+                <Label text="●" styleClass="status-dot"/>
+                <Label fx:id="totalEntregasLabel" text="0 ENTREGAS" styleClass="status-text"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="14" styleClass="center-area">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20"/>
+            </padding>
+
+            <ScrollPane styleClass="right-scroll" fitToWidth="true"
+                        prefWidth="230" minWidth="215"
+                        hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <VBox spacing="12">
+
+                    <VBox styleClass="panel, panel-amber" spacing="8">
+                        <Label text="CRIAR" styleClass="panel-code"/>
+                        <Label text="Nova entrega" styleClass="panel-title"/>
+
+                        <Label text="Entrega" styleClass="section-label"/>
+                        <ComboBox fx:id="pedidoCombo" promptText="Pedido vinculado"
+                                  styleClass="field" maxWidth="Infinity"/>
+                        <ComboBox fx:id="prioridadeCriarCombo" promptText="Prioridade"
+                                  styleClass="field" maxWidth="Infinity"/>
+                        <ComboBox fx:id="statusCriarCombo" promptText="Status inicial"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Label text="Rota" styleClass="section-label"/>
+                        <TextField fx:id="destinoField" promptText="Destino" styleClass="field"/>
+                        <TextField fx:id="observacoesField" promptText="Observações (opcional)" styleClass="field"/>
+
+                        <Button text="Criar entrega" styleClass="action-button, action-amber"
+                                onAction="#criarEntrega" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-teal" spacing="8">
+                        <Label text="ALTERAR" styleClass="panel-code"/>
+                        <Label text="Rota ou prioridade" styleClass="panel-title"/>
+
+                        <TextField fx:id="idAlterarField" promptText="ID da entrega" styleClass="field"/>
+
+                        <Label text="Nova rota" styleClass="section-label"/>
+                        <TextField fx:id="novoDestinoField" promptText="Novo destino (opcional)" styleClass="field"/>
+                        <TextField fx:id="novasObservacoesField" promptText="Observações (opcional)" styleClass="field"/>
+
+                        <Button text="Alterar rota" styleClass="action-button, action-teal"
+                                onAction="#alterarRota" maxWidth="Infinity"/>
+
+                        <Separator/>
+
+                        <Label text="Nova prioridade" styleClass="section-label"/>
+                        <ComboBox fx:id="novaPrioridadeCombo" promptText="Prioridade"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Alterar prioridade" styleClass="action-button, action-teal"
+                                onAction="#alterarPrioridade" maxWidth="Infinity"/>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+
+            <VBox styleClass="panel, panel-purple" spacing="12" HBox.hgrow="ALWAYS" minWidth="300">
+
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <VBox>
+                        <Label text="CONSULTA" styleClass="panel-code"/>
+                        <Label text="Entregas cadastradas" styleClass="panel-title"/>
+                    </VBox>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <Button text="↻" styleClass="refresh-button" onAction="#atualizarListagem"/>
+                </HBox>
+
+                <VBox spacing="8">
+                    <HBox spacing="12" styleClass="filtro-box" alignment="CENTER_LEFT">
+                        <Label text="Filtrar:" styleClass="filtro-label"/>
+
+                        <fx:define>
+                            <ToggleGroup fx:id="filtroGroup"/>
+                        </fx:define>
+
+                        <RadioButton fx:id="radioTodas" text="Todas" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" selected="true" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioAtivas" text="Ativas" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioPrioridade" text="Por prioridade" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioHorario" text="Por horário" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="status-search-box">
+                        <Label text="Status:" styleClass="filtro-label"/>
+                        <ComboBox fx:id="statusBuscaCombo" promptText="Selecione um status"
+                                  styleClass="field" prefWidth="170"/>
+                        <Button text="Buscar" styleClass="action-button, action-blue-outline, action-compact"
+                                onAction="#buscarPorStatus"/>
+                    </HBox>
+                </VBox>
+
+                <GridPane styleClass="table-header" hgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="18"/>
+                        <ColumnConstraints percentWidth="20"/>
+                        <ColumnConstraints percentWidth="16"/>
+                        <ColumnConstraints percentWidth="14"/>
+                        <ColumnConstraints percentWidth="12"/>
+                    </columnConstraints>
+                    <Label text="PEDIDO" styleClass="th" GridPane.columnIndex="0"/>
+                    <Label text="DESTINO" styleClass="th" GridPane.columnIndex="1"/>
+                    <Label text="PRIORIDADE" styleClass="th" GridPane.columnIndex="2"/>
+                    <Label text="STATUS" styleClass="th" GridPane.columnIndex="3"/>
+                    <Label text="DIST." styleClass="th" GridPane.columnIndex="4"/>
+                    <Label text="CRIADO" styleClass="th" GridPane.columnIndex="5"/>
+                </GridPane>
+
+                <ListView fx:id="entregasListView" styleClass="atendimentos-list" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <ScrollPane styleClass="right-scroll" fitToWidth="true"
+                        prefWidth="230" minWidth="215"
+                        hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <VBox spacing="12">
+
+                    <VBox styleClass="panel, panel-coral" spacing="8">
+                        <Label text="STATUS" styleClass="panel-code"/>
+                        <Label text="Alterar status" styleClass="panel-title"/>
+
+                        <TextField fx:id="idStatusField" promptText="ID da entrega" styleClass="field"/>
+
+                        <ComboBox fx:id="novoStatusCombo" promptText="Novo status"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Alterar" styleClass="action-button, action-coral"
+                                onAction="#alterarStatus" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-blue" spacing="8">
+                        <Label text="DETALHES" styleClass="panel-code"/>
+                        <Label text="Buscar entrega" styleClass="panel-title"/>
+
+                        <TextField fx:id="idBuscarField" promptText="ID da entrega" styleClass="field"/>
+
+                        <Button text="Buscar" styleClass="action-button, action-blue"
+                                onAction="#buscarPorId" maxWidth="Infinity"/>
+
+                        <VBox fx:id="resultadoBuscaBox" styleClass="next-card, next-card-compact"
+                              spacing="5" alignment="CENTER_LEFT">
+                            <Label fx:id="resultadoPedidoLabel" text="—" styleClass="next-name"/>
+                            <Label fx:id="resultadoDestinoLabel" text="" styleClass="next-tipo"/>
+
+                            <HBox spacing="6">
+                                <Label fx:id="resultadoPrioridadeBadge" text="" styleClass="badge, badge-gray"/>
+                                <Label fx:id="resultadoStatusBadge" text="" styleClass="badge, badge-gray"/>
+                            </HBox>
+
+                            <Label fx:id="resultadoDistanciaLabel" text="" styleClass="next-horario"/>
+                            <Label fx:id="resultadoHorarioLabel" text="" styleClass="next-horario"/>
+                            <HBox fx:id="resultadoIdBox" spacing="6" alignment="CENTER_LEFT"/>
+                        </VBox>
+
+                        <Separator/>
+
+                        <Label text="Ações rápidas" styleClass="section-label"/>
+
+                        <Button text="✔  Concluir entrega" styleClass="action-button, action-teal"
+                                onAction="#concluirEntrega" maxWidth="Infinity"/>
+
+                        <Button text="✖  Cancelar entrega" styleClass="action-button, action-coral"
+                                onAction="#cancelarEntrega" maxWidth="Infinity"/>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+
+        </HBox>
+    </center>
+
+</BorderPane>
