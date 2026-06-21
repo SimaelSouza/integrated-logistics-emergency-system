@@ -4,6 +4,7 @@ import br.com.logisticsystem.models.Atendimento;
 import br.com.logisticsystem.models.EnumPrioridade;
 import br.com.logisticsystem.models.EnumTipo;
 import br.com.logisticsystem.services.AtendimentoService;
+import br.com.logisticsystem.services.HistoricoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,8 @@ class AtendimentoServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new AtendimentoService(10);
+        HistoricoService historicoService = new HistoricoService();
+        service = new AtendimentoService(10, historicoService);
     }
 
     // ── cadastrar ──────────────────────────────────────────────────────────────
