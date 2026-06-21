@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.com.logisticsystem.controllers.HistoricoController"
-            prefHeight="400.0" prefWidth="600.0">
+            styleClass="root-pane"
+            prefWidth="980" prefHeight="640">
 
-</AnchorPane>
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="18" right="28" bottom="18" left="28"/>
+            </padding>
+
+            <Button text="←  Voltar" styleClass="back-button" onAction="#voltarMenu"/>
+
+            <VBox alignment="CENTER_LEFT" spacing="2">
+                <Label text="HISTÓRICO" styleClass="brand-title"/>
+                <Label text="Módulo 04 — Movimentações e navegação" styleClass="brand-subtitle"/>
+            </VBox>
+
+            <HBox HBox.hgrow="ALWAYS"/>
+
+            <HBox styleClass="status-pill" alignment="CENTER" spacing="8">
+                <Label text="●" styleClass="status-dot"/>
+                <Label fx:id="totalMovimentacoesLabel" text="0 REGISTROS" styleClass="status-text"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane styleClass="right-scroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <HBox spacing="16" styleClass="center-area">
+                <padding>
+                    <Insets top="16" right="20" bottom="16" left="20"/>
+                </padding>
+
+                <VBox spacing="14" prefWidth="320" minWidth="300">
+
+                    <VBox styleClass="panel, panel-blue, panel-central" spacing="14" VBox.vgrow="ALWAYS">
+                        <Label text="NAVEGADOR" styleClass="panel-code"/>
+                        <Label text="Movimentação atual" styleClass="panel-title-lg"/>
+
+                        <VBox styleClass="next-card" spacing="10" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+
+                            <HBox spacing="8" alignment="CENTER_LEFT">
+                                <Label fx:id="tipoOperacaoLabel" text="—" styleClass="badge, badge-gray"/>
+                                <HBox HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="posicaoLabel" text="" styleClass="next-horario"/>
+                            </HBox>
+
+                            <Label fx:id="descricaoLabel" text="Nenhuma movimentação registrada"
+                                   styleClass="next-name, descricao-wrap" wrapText="true"/>
+
+                            <Separator/>
+
+                            <Label text="Entidade envolvida" styleClass="section-label"/>
+                            <Label fx:id="entidadeLabel" text="—" styleClass="next-tipo, entidade-wrap" wrapText="true"/>
+
+                            <HBox HBox.hgrow="ALWAYS"/>
+
+                            <Label fx:id="horarioLabel" text="" styleClass="next-horario"/>
+                            <HBox fx:id="idBox" spacing="6" alignment="CENTER_LEFT"/>
+                        </VBox>
+
+                        <HBox spacing="10" alignment="CENTER">
+                            <Button text="⏮" styleClass="action-button, action-blue-outline, nav-arrow"
+                                    onAction="#irParaPrimeira"/>
+                            <Button text="◀" styleClass="action-button, action-blue, nav-arrow"
+                                    onAction="#irParaAnterior"/>
+                            <Button text="▶" styleClass="action-button, action-blue, nav-arrow"
+                                    onAction="#irParaProxima"/>
+                            <Button text="⏭" styleClass="action-button, action-blue-outline, nav-arrow"
+                                    onAction="#irParaUltima"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-amber" spacing="10">
+                        <Label text="BUSCAR" styleClass="panel-code"/>
+                        <Label text="Localizar por ID" styleClass="panel-title"/>
+
+                        <TextField fx:id="idBuscarField" promptText="ID da movimentação" styleClass="field"/>
+
+                        <Button text="Buscar" styleClass="action-button, action-amber"
+                                onAction="#buscarPorId" maxWidth="Infinity"/>
+                    </VBox>
+
+                </VBox>
+
+                <VBox styleClass="panel, panel-purple" spacing="12" HBox.hgrow="ALWAYS" minWidth="380">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <VBox>
+                            <Label text="REGISTROS" styleClass="panel-code"/>
+                            <Label text="Linha do tempo" styleClass="panel-title"/>
+                        </VBox>
+                        <HBox HBox.hgrow="ALWAYS"/>
+                        <Button text="↻" styleClass="refresh-button" onAction="#atualizarListagem"/>
+                    </HBox>
+
+                    <HBox spacing="20" styleClass="filtro-box" alignment="CENTER_LEFT">
+                        <Label text="Ordenar por:" styleClass="filtro-label"/>
+
+                        <fx:define>
+                            <ToggleGroup fx:id="filtroGroup"/>
+                        </fx:define>
+
+                        <RadioButton fx:id="radioTipoOperacao" text="Tipo de operação" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" selected="true" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioHorario" text="Horário" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                    </HBox>
+
+                    <ListView fx:id="movimentacoesListView" styleClass="atendimentos-list" VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+            </HBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
