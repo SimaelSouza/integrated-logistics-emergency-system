@@ -5,7 +5,9 @@ import java.util.UUID;
 
 public class Atendimento {
 
-    private final UUID id;
+    private UUID id;
+    private boolean idRestaurado;
+
     private String nomeSolicitante;
     private EnumPrioridade prioridade;
     private final LocalDateTime horarioSolicitacao;
@@ -17,6 +19,7 @@ public class Atendimento {
         validarTipoOcorrencia(tipoOcorrencia);
 
         this.id = UUID.randomUUID();
+        this.idRestaurado = false;
         this.nomeSolicitante = nomeSolicitante;
         this.prioridade = prioridade;
         this.horarioSolicitacao = LocalDateTime.now();
@@ -25,6 +28,17 @@ public class Atendimento {
 
     public UUID getId() {
         return id;
+    }
+
+    public void restaurarId(UUID idOriginal) {
+        if (idRestaurado) {
+            throw new IllegalStateException("O ID deste Atendimento já foi restaurado anteriormente.");
+        }
+        if (idOriginal == null) {
+            throw new IllegalArgumentException("O ID original é obrigatório para restauração.");
+        }
+        this.id = idOriginal;
+        this.idRestaurado = true;
     }
 
     public String getNomeSolicitante() {
@@ -67,12 +81,6 @@ public class Atendimento {
     private void validarPrioridade(EnumPrioridade prioridade) {
         if (prioridade == null) {
             throw new IllegalArgumentException("Prioridade e obrigatoria.");
-        }
-    }
-
-    private void validarHorarioSolicitacao(LocalDateTime horarioSolicitacao) {
-        if (horarioSolicitacao == null) {
-            throw new IllegalArgumentException("Horario da solicitacao e obrigatorio.");
         }
     }
 
