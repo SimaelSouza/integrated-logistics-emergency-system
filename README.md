@@ -72,6 +72,8 @@ integrated-logistics-emergency-system/
 │
 ├── docs/
 │   ├── analise-assintotica.md
+│   ├── benchmark-results.md
+│   ├── explicacao-lineares.md
 │   ├── relatorio-final.md
 │   └── diagramas/
 │
@@ -89,7 +91,9 @@ integrated-logistics-emergency-system/
 │   │   │   │   ├── PedidoController.java
 │   │   │   │   ├── HistoricoController.java
 │   │   │   │   ├── EntregaController.java
-│   │   │   │   └── RelatorioController.java
+│   │   │   │   ├── RelatorioController.java
+│   │   │   │   ├── NavigationManager.java
+│   │   │   │   └── ClipboardUtil.java
 │   │   │   │
 │   │   │   ├── models/
 │   │   │   │   ├── Atendimento.java
@@ -100,6 +104,7 @@ integrated-logistics-emergency-system/
 │   │   │   │   ├── Pedido.java
 │   │   │   │   ├── Operacao.java
 │   │   │   │   ├── Relatorio.java
+│   │   │   │   ├── TipoOperacao.java
 │   │   │   │   └── Movimentacao.java
 │   │   │   │
 │   │   │   ├── services/
@@ -107,7 +112,6 @@ integrated-logistics-emergency-system/
 │   │   │   │   ├── EntregaService.java
 │   │   │   │   ├── PedidoService.java
 │   │   │   │   ├── HistoricoService.java
-│   │   │   │   ├── OrdenacaoService.java
 │   │   │   │   ├── RelatorioService.java
 │   │   │   │   └── EstatisticaService.java
 │   │   │   │
@@ -119,7 +123,8 @@ integrated-logistics-emergency-system/
 │   │   │   │   │   
 │   │   │   │   │
 │   │   │   │   ├── stack/
-│   │   │   │   │   └── Pilha.java
+│   │   │   │   │   ├── Pilha.java
+│   │   │   │   │   └── NoPilha.java
 │   │   │   │   │  
 │   │   │   │   │
 │   │   │   │   ├── singlylinkedlist/
@@ -149,7 +154,6 @@ integrated-logistics-emergency-system/
 │   │   │   ├── utils/
 │   │   │   │   ├── Timer.java
 │   │   │   │   ├── Estatisticas.java
-│   │   │   │   ├── Comparador.java
 │   │   │   │   └── GeradorDados.java
 │   │   │   │
 │   │   │   └── exceptions/
