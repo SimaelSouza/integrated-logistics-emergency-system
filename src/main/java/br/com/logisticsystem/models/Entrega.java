@@ -5,11 +5,12 @@ import java.util.UUID;
 
 public class Entrega {
     private UUID id;
+    private boolean idRestaurado;
     private Pedido pedidoVinculado;
     private Rota rota;
     private EnumPrioridade prioridade;
     private EnumStatus status;
-    private LocalDateTime horarioCriacao;
+    private final LocalDateTime horarioCriacao;
     private LocalDateTime horarioConclusao;
 
     public Entrega(Pedido pedidoVinculado, Rota rota, EnumPrioridade prioridade, EnumStatus status) {
@@ -19,6 +20,7 @@ public class Entrega {
         validarStatus(status);
 
         this.id = UUID.randomUUID();
+        this.idRestaurado = false;
         this.pedidoVinculado = pedidoVinculado;
         this.rota = rota;
         this.prioridade = prioridade;
@@ -29,6 +31,17 @@ public class Entrega {
 
     public UUID getId() {
         return id;
+    }
+
+    public void restaurarId(UUID idOriginal) {
+        if (idRestaurado) {
+            throw new IllegalStateException("O ID desta Entrega já foi restaurado anteriormente.");
+        }
+        if (idOriginal == null) {
+            throw new IllegalArgumentException("O ID original é obrigatório para restauração.");
+        }
+        this.id = idOriginal;
+        this.idRestaurado = true;
     }
 
     public Pedido getPedidoVinculado() {
@@ -79,26 +92,26 @@ public class Entrega {
         this.horarioConclusao = horarioConclusao;
     }
 
-    private void validarPedidoVinculado(Pedido pedidoVinculado){
-        if(pedidoVinculado == null){
+    private void validarPedidoVinculado(Pedido pedidoVinculado) {
+        if (pedidoVinculado == null) {
             throw new IllegalArgumentException("Pedido vinculado é obrigatório");
         }
     }
 
-    private void validarRota(Rota rota){
-        if(rota == null){
+    private void validarRota(Rota rota) {
+        if (rota == null) {
             throw new IllegalArgumentException("A rota é obrigatória");
         }
     }
 
-    private void validarPrioridade(EnumPrioridade prioridade){
-        if(prioridade == null){
+    private void validarPrioridade(EnumPrioridade prioridade) {
+        if (prioridade == null) {
             throw new IllegalArgumentException("A prioridade é obrigatória");
         }
     }
 
-    private void validarStatus(EnumStatus status){
-        if(status == null){
+    private void validarStatus(EnumStatus status) {
+        if (status == null) {
             throw new IllegalArgumentException("O status é obrigatório");
         }
     }

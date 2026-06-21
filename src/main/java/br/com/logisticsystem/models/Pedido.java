@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Pedido {
-    private final UUID id;
+    private UUID id;
+    private boolean idRestaurado;
     private String nomeCliente;
     private String descricaoCarga;
     private EnumPrioridade prioridade;
     private EnumStatus status;
-    private LocalDateTime horarioCriacao;
+    private final LocalDateTime horarioCriacao;
 
     public Pedido(String nomeCliente, String descricaoCarga, EnumPrioridade prioridade) {
         validarNomeCliente(nomeCliente);
@@ -17,6 +18,7 @@ public class Pedido {
         validarPrioridade(prioridade);
 
         this.id = UUID.randomUUID();
+        this.idRestaurado = false;
         this.nomeCliente = nomeCliente;
         this.descricaoCarga = descricaoCarga;
         this.prioridade = prioridade;
@@ -26,6 +28,17 @@ public class Pedido {
 
     public UUID getId() {
         return id;
+    }
+
+    public void restaurarId(UUID idOriginal) {
+        if (idRestaurado) {
+            throw new IllegalStateException("O ID deste Pedido já foi restaurado anteriormente.");
+        }
+        if (idOriginal == null) {
+            throw new IllegalArgumentException("O ID original é obrigatório para restauração.");
+        }
+        this.id = idOriginal;
+        this.idRestaurado = true;
     }
 
     public String getNomeCliente() {
