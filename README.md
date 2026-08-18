@@ -72,6 +72,8 @@ integrated-logistics-emergency-system/
 │
 ├── docs/
 │   ├── analise-assintotica.md
+│   ├── benchmark-results.md
+│   ├── explicacao-lineares.md
 │   ├── relatorio-final.md
 │   └── diagramas/
 │
@@ -88,21 +90,28 @@ integrated-logistics-emergency-system/
 │   │   │   │   ├── AtendimentoController.java
 │   │   │   │   ├── PedidoController.java
 │   │   │   │   ├── HistoricoController.java
-│   │   │   │   ├── OrdenacaoController.java
-│   │   │   │   └── RelatorioController.java
+│   │   │   │   ├── EntregaController.java
+│   │   │   │   ├── RelatorioController.java
+│   │   │   │   ├── NavigationManager.java
+│   │   │   │   └── ClipboardUtil.java
 │   │   │   │
 │   │   │   ├── models/
 │   │   │   │   ├── Atendimento.java
+│   │   │   │   ├── Entrega.java
+│   │   │   │   ├── EnumPrioridade.java
+│   │   │   │   ├── EnumStatus.java
+│   │   │   │   ├── EnumTipo.java
 │   │   │   │   ├── Pedido.java
 │   │   │   │   ├── Operacao.java
 │   │   │   │   ├── Relatorio.java
+│   │   │   │   ├── TipoOperacao.java
 │   │   │   │   └── Movimentacao.java
 │   │   │   │
 │   │   │   ├── services/
 │   │   │   │   ├── AtendimentoService.java
+│   │   │   │   ├── EntregaService.java
 │   │   │   │   ├── PedidoService.java
 │   │   │   │   ├── HistoricoService.java
-│   │   │   │   ├── OrdenacaoService.java
 │   │   │   │   ├── RelatorioService.java
 │   │   │   │   └── EstatisticaService.java
 │   │   │   │
@@ -110,12 +119,13 @@ integrated-logistics-emergency-system/
 │   │   │   │
 │   │   │   │   ├── queue/
 │   │   │   │   │   ├── Fila.java
-│   │   │   │   │   ├── FilaPrioritaria.java
-│   │   │   │   │   └── NoFila.java
+│   │   │   │   │   └── FilaPrioritaria.java
+│   │   │   │   │   
 │   │   │   │   │
 │   │   │   │   ├── stack/
 │   │   │   │   │   ├── Pilha.java
 │   │   │   │   │   └── NoPilha.java
+│   │   │   │   │  
 │   │   │   │   │
 │   │   │   │   ├── singlylinkedlist/
 │   │   │   │   │   ├── ListaSimples.java
@@ -144,7 +154,6 @@ integrated-logistics-emergency-system/
 │   │   │   ├── utils/
 │   │   │   │   ├── Timer.java
 │   │   │   │   ├── Estatisticas.java
-│   │   │   │   ├── Comparador.java
 │   │   │   │   └── GeradorDados.java
 │   │   │   │
 │   │   │   └── exceptions/
@@ -158,7 +167,7 @@ integrated-logistics-emergency-system/
 │   │       │   ├── atendimento-view.fxml
 │   │       │   ├── pedidos-view.fxml
 │   │       │   ├── historico-view.fxml
-│   │       │   ├── ordenacao-view.fxml
+│   │       │   ├── entrega-view.fxml
 │   │       │   └── relatorio-view.fxml
 │   │       │
 │   │       ├── css/

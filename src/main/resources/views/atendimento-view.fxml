@@ -1,14 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.com.logisticsystem.controllers.AtendimentoController"
-            prefHeight="400.0" prefWidth="600.0">
+            styleClass="root-pane"
+            prefWidth="980" prefHeight="640">
 
-</AnchorPane>
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="18" right="28" bottom="18" left="28"/>
+            </padding>
+
+            <Button text="←  Voltar" styleClass="back-button" onAction="#voltarMenu"/>
+
+            <VBox alignment="CENTER_LEFT" spacing="2">
+                <Label text="ATENDIMENTOS" styleClass="brand-title"/>
+                <Label text="Módulo 01 — Fila de prioridade emergencial" styleClass="brand-subtitle"/>
+            </VBox>
+
+            <HBox HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="desfazerButton" text="↶ Desfazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#desfazer" disable="true"/>
+            <Button fx:id="refazerButton" text="↷ Refazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#refazer" disable="true"/>
+
+            <HBox styleClass="status-pill" alignment="CENTER" spacing="8">
+                <Label text="●" styleClass="status-dot"/>
+                <Label fx:id="totalPendentesLabel" text="0 PENDENTES" styleClass="status-text"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane styleClass="right-scroll" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <HBox spacing="20" styleClass="center-area">
+                <padding>
+                    <Insets top="20" right="28" bottom="20" left="28"/>
+                </padding>
+
+                <VBox spacing="16" prefWidth="260" minWidth="240">
+
+                    <VBox styleClass="panel, panel-amber" spacing="10">
+                        <Label text="CADASTRAR" styleClass="panel-code"/>
+                        <Label text="Novo atendimento" styleClass="panel-title"/>
+
+                        <TextField fx:id="nomeField" promptText="Nome do solicitante" styleClass="field"/>
+
+                        <ComboBox fx:id="prioridadeCadastroCombo" promptText="Prioridade"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <ComboBox fx:id="tipoOcorrenciaCombo" promptText="Tipo de ocorrência"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Cadastrar" styleClass="action-button, action-amber"
+                                onAction="#cadastrarAtendimento" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-teal" spacing="10">
+                        <Label text="ATUALIZAR" styleClass="panel-code"/>
+                        <Label text="Alterar prioridade" styleClass="panel-title"/>
+
+                        <TextField fx:id="idAlterarField" promptText="ID do atendimento" styleClass="field"/>
+
+                        <ComboBox fx:id="novaPrioridadeCombo" promptText="Nova prioridade"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Atualizar" styleClass="action-button, action-teal"
+                                onAction="#atualizarPrioridade" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-coral" spacing="10">
+                        <Label text="REMOVER" styleClass="panel-code"/>
+                        <Label text="Cancelar atendimento" styleClass="panel-title"/>
+
+                        <TextField fx:id="idRemoverField" promptText="ID do atendimento" styleClass="field"/>
+
+                        <Button text="Remover" styleClass="action-button, action-coral"
+                                onAction="#removerAtendimento" maxWidth="Infinity"/>
+                    </VBox>
+
+                </VBox>
+
+                <VBox styleClass="panel, panel-blue, panel-central" spacing="18" alignment="TOP_CENTER" prefWidth="280" minWidth="260">
+                    <Label text="PRÓXIMO" styleClass="panel-code"/>
+                    <Label text="Atendimento da vez" styleClass="panel-title-lg"/>
+
+                    <VBox styleClass="next-card" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                        <Label fx:id="proximoNomeLabel" text="—" styleClass="next-name"/>
+                        <Label fx:id="proximoTipoLabel" text="Nenhum atendimento na fila" styleClass="next-tipo"/>
+
+                        <HBox alignment="CENTER" spacing="10">
+                            <Label fx:id="proximoPrioridadeBadge" text="SEM PRIORIDADE" styleClass="badge, badge-gray"/>
+                            <Label fx:id="proximoOrigemLabel" text="" styleClass="next-origem"/>
+                        </HBox>
+
+                        <Label fx:id="proximoHorarioLabel" text="" styleClass="next-horario"/>
+                        <HBox fx:id="proximoIdBox" spacing="6" alignment="CENTER"/>
+                    </VBox>
+
+                    <Separator/>
+
+                    <Button text="Consultar próximo" styleClass="action-button, action-blue-outline"
+                            onAction="#consultarProximo" maxWidth="Infinity"/>
+
+                    <Button text="Atender agora" styleClass="action-button, action-blue"
+                            onAction="#atenderProximo" maxWidth="Infinity"/>
+
+                    <Label fx:id="tempoMedioLabel" text="Tempo médio de espera: —" styleClass="info-text"/>
+                </VBox>
+
+
+                <VBox styleClass="panel, panel-purple" spacing="14" HBox.hgrow="ALWAYS" minWidth="320">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <VBox>
+                            <Label text="CONSULTA" styleClass="panel-code"/>
+                            <Label text="Atendimentos na fila" styleClass="panel-title"/>
+                        </VBox>
+                        <HBox HBox.hgrow="ALWAYS"/>
+                        <Button text="↻" styleClass="refresh-button" onAction="#atualizarListagem"/>
+                    </HBox>
+
+                    <HBox spacing="20" styleClass="filtro-box" alignment="CENTER_LEFT">
+                        <Label text="Ordenar por:" styleClass="filtro-label"/>
+
+                        <fx:define>
+                            <ToggleGroup fx:id="filtroGroup"/>
+                        </fx:define>
+
+                        <RadioButton fx:id="radioPrioridade" text="Prioridade" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" selected="true" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioHorario" text="Horário" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                    </HBox>
+
+                    <GridPane styleClass="table-header" hgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="32"/>
+                            <ColumnConstraints percentWidth="22"/>
+                            <ColumnConstraints percentWidth="24"/>
+                            <ColumnConstraints percentWidth="22"/>
+                        </columnConstraints>
+                        <Label text="NOME" styleClass="th" GridPane.columnIndex="0"/>
+                        <Label text="PRIORIDADE" styleClass="th" GridPane.columnIndex="1"/>
+                        <Label text="TIPO" styleClass="th" GridPane.columnIndex="2"/>
+                        <Label text="HORÁRIO" styleClass="th" GridPane.columnIndex="3"/>
+                    </GridPane>
+
+                    <ListView fx:id="atendimentosListView" styleClass="atendimentos-list" VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+            </HBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

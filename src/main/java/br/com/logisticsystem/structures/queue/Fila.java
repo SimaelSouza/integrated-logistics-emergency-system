@@ -60,15 +60,13 @@ public class Fila {
     }
 
     public Atendimento[] listar() {
-
         System.out.println("Listando Fila simples de atendimentos");
-        for(int i=0; i<atendimentos.length; i++){
-            if(atendimentos[i] != null){
-                System.out.println("Atendimento " + i + ": " + atendimentos[i]);
-            }
+        Atendimento[] elementosAtuais = new Atendimento[fim];
+        for (int i = 0; i < fim; i++) {
+            System.out.println("Atendimento " + i + ": " + atendimentos[i]);
+            elementosAtuais[i] = atendimentos[i];
         }
-
-        return atendimentos;
+        return elementosAtuais;
     }
 
     public boolean isEmpty() {

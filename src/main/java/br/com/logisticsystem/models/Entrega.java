@@ -3,27 +3,30 @@ package br.com.logisticsystem.models;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Pedido {
+public class Entrega {
     private UUID id;
     private boolean idRestaurado;
-    private String nomeCliente;
-    private String descricaoCarga;
+    private Pedido pedidoVinculado;
+    private Rota rota;
     private EnumPrioridade prioridade;
     private EnumStatus status;
     private final LocalDateTime horarioCriacao;
+    private LocalDateTime horarioConclusao;
 
-    public Pedido(String nomeCliente, String descricaoCarga, EnumPrioridade prioridade) {
-        validarNomeCliente(nomeCliente);
-        validarDescricaoCarga(descricaoCarga);
+    public Entrega(Pedido pedidoVinculado, Rota rota, EnumPrioridade prioridade, EnumStatus status) {
+        validarPedidoVinculado(pedidoVinculado);
+        validarRota(rota);
         validarPrioridade(prioridade);
+        validarStatus(status);
 
         this.id = UUID.randomUUID();
         this.idRestaurado = false;
-        this.nomeCliente = nomeCliente;
-        this.descricaoCarga = descricaoCarga;
+        this.pedidoVinculado = pedidoVinculado;
+        this.rota = rota;
         this.prioridade = prioridade;
-        this.status = EnumStatus.PENDENTE;
+        this.status = status;
         this.horarioCriacao = LocalDateTime.now();
+        this.horarioConclusao = null;
     }
 
     public UUID getId() {
@@ -32,7 +35,7 @@ public class Pedido {
 
     public void restaurarId(UUID idOriginal) {
         if (idRestaurado) {
-            throw new IllegalStateException("O ID deste Pedido já foi restaurado anteriormente.");
+            throw new IllegalStateException("O ID desta Entrega já foi restaurado anteriormente.");
         }
         if (idOriginal == null) {
             throw new IllegalArgumentException("O ID original é obrigatório para restauração.");
@@ -41,22 +44,22 @@ public class Pedido {
         this.idRestaurado = true;
     }
 
-    public String getNomeCliente() {
-        return nomeCliente;
+    public Pedido getPedidoVinculado() {
+        return pedidoVinculado;
     }
 
-    public void setNomeCliente(String nomeCliente) {
-        validarNomeCliente(nomeCliente);
-        this.nomeCliente = nomeCliente;
+    public void setPedidoVinculado(Pedido pedidoVinculado) {
+        validarPedidoVinculado(pedidoVinculado);
+        this.pedidoVinculado = pedidoVinculado;
     }
 
-    public String getDescricaoCarga() {
-        return descricaoCarga;
+    public Rota getRota() {
+        return rota;
     }
 
-    public void setDescricaoCarga(String descricaoCarga) {
-        validarDescricaoCarga(descricaoCarga);
-        this.descricaoCarga = descricaoCarga;
+    public void setRota(Rota rota) {
+        validarRota(rota);
+        this.rota = rota;
     }
 
     public EnumPrioridade getPrioridade() {
@@ -81,15 +84,23 @@ public class Pedido {
         return horarioCriacao;
     }
 
-    private void validarNomeCliente(String nomeCliente) {
-        if (nomeCliente == null || nomeCliente.isBlank()) {
-            throw new IllegalArgumentException("O nome do cliente é obrigatório");
+    public LocalDateTime getHorarioConclusao() {
+        return horarioConclusao;
+    }
+
+    public void setHorarioConclusao(LocalDateTime horarioConclusao) {
+        this.horarioConclusao = horarioConclusao;
+    }
+
+    private void validarPedidoVinculado(Pedido pedidoVinculado) {
+        if (pedidoVinculado == null) {
+            throw new IllegalArgumentException("Pedido vinculado é obrigatório");
         }
     }
 
-    private void validarDescricaoCarga(String descricaoCarga) {
-        if (descricaoCarga == null || descricaoCarga.isBlank()) {
-            throw new IllegalArgumentException("A descrição da carga é obrigatória");
+    private void validarRota(Rota rota) {
+        if (rota == null) {
+            throw new IllegalArgumentException("A rota é obrigatória");
         }
     }
 
@@ -107,13 +118,14 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido{" +
+        return "Entrega{" +
                 "id=" + id +
-                ", nomeCliente='" + nomeCliente + '\'' +
-                ", descricaoCarga='" + descricaoCarga + '\'' +
+                ", pedidoVinculado=" + pedidoVinculado +
+                ", rota=" + rota +
                 ", prioridade=" + prioridade +
                 ", status=" + status +
                 ", horarioCriacao=" + horarioCriacao +
+                ", horarioConclusao=" + horarioConclusao +
                 '}';
     }
 }

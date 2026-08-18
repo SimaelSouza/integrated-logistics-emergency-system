@@ -1,14 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="br.com.logisticsystem.controllers.PedidoController"
-            prefHeight="400.0" prefWidth="600.0">
+            styleClass="root-pane"
+            prefWidth="980" prefHeight="640">
 
-</AnchorPane>
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="16">
+            <padding>
+                <Insets top="18" right="28" bottom="18" left="28"/>
+            </padding>
+
+            <Button text="←  Voltar" styleClass="back-button" onAction="#voltarMenu"/>
+
+            <VBox alignment="CENTER_LEFT" spacing="2">
+                <Label text="PEDIDOS" styleClass="brand-title"/>
+                <Label text="Módulo 02 — Cadastro e controle de cargas" styleClass="brand-subtitle"/>
+            </VBox>
+
+            <HBox HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="desfazerButton" text="↶ Desfazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#desfazer" disable="true"/>
+            <Button fx:id="refazerButton" text="↷ Refazer" styleClass="action-button, action-blue-outline, action-compact"
+                    onAction="#refazer" disable="true"/>
+
+            <HBox styleClass="status-pill" alignment="CENTER" spacing="8">
+                <Label text="●" styleClass="status-dot"/>
+                <Label fx:id="totalPedidosLabel" text="0 PEDIDOS" styleClass="status-text"/>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="14" styleClass="center-area">
+            <padding>
+                <Insets top="16" right="20" bottom="16" left="20"/>
+            </padding>
+
+            <VBox spacing="14" prefWidth="210" minWidth="200">
+
+                <VBox styleClass="panel, panel-amber" spacing="10">
+                    <Label text="CADASTRAR" styleClass="panel-code"/>
+                    <Label text="Novo pedido" styleClass="panel-title"/>
+
+                    <TextField fx:id="nomeClienteField" promptText="Nome do cliente" styleClass="field"/>
+
+                    <TextArea fx:id="descricaoCargaField" promptText="Descrição da carga"
+                              styleClass="field, text-area-field" wrapText="true" prefRowCount="3"/>
+
+                    <ComboBox fx:id="prioridadeCadastroCombo" promptText="Prioridade"
+                              styleClass="field" maxWidth="Infinity"/>
+
+                    <Button text="Cadastrar" styleClass="action-button, action-amber"
+                            onAction="#cadastrarPedido" maxWidth="Infinity"/>
+                </VBox>
+
+                <VBox styleClass="panel, panel-coral" spacing="10">
+                    <Label text="REMOVER" styleClass="panel-code"/>
+                    <Label text="Excluir pedido" styleClass="panel-title"/>
+
+                    <TextField fx:id="idRemoverField" promptText="ID do pedido" styleClass="field"/>
+
+                    <Button text="Remover" styleClass="action-button, action-coral"
+                            onAction="#removerPedido" maxWidth="Infinity"/>
+                </VBox>
+
+            </VBox>
+
+            <VBox styleClass="panel, panel-purple" spacing="12" HBox.hgrow="ALWAYS" minWidth="300">
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <VBox>
+                        <Label text="CONSULTA" styleClass="panel-code"/>
+                        <Label text="Pedidos cadastrados" styleClass="panel-title"/>
+                    </VBox>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <Button text="↻" styleClass="refresh-button" onAction="#atualizarListagem"/>
+                </HBox>
+
+                <VBox spacing="10">
+                    <HBox spacing="12" styleClass="filtro-box" alignment="CENTER_LEFT">
+                        <Label text="Filtrar:" styleClass="filtro-label"/>
+
+                        <fx:define>
+                            <ToggleGroup fx:id="filtroGroup"/>
+                        </fx:define>
+
+                        <RadioButton fx:id="radioTodos" text="Todos" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" selected="true" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioAtivos" text="Ativos" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioPrioridade" text="Por prioridade" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                        <RadioButton fx:id="radioHorario" text="Por horário" styleClass="radio-filtro"
+                                     toggleGroup="$filtroGroup" onAction="#aplicarFiltro"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="status-search-box">
+                        <Label text="Status:" styleClass="filtro-label"/>
+                        <ComboBox fx:id="statusBuscaCombo" promptText="Selecione um status" styleClass="field" prefWidth="180"/>
+                        <Button text="Buscar" styleClass="action-button, action-blue-outline, action-compact"
+                                onAction="#buscarPorStatus"/>
+                    </HBox>
+                </VBox>
+
+                <GridPane styleClass="table-header" hgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="26"/>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="18"/>
+                        <ColumnConstraints percentWidth="14"/>
+                        <ColumnConstraints percentWidth="12"/>
+                    </columnConstraints>
+                    <Label text="CLIENTE" styleClass="th" GridPane.columnIndex="0"/>
+                    <Label text="CARGA" styleClass="th" GridPane.columnIndex="1"/>
+                    <Label text="PRIORIDADE" styleClass="th" GridPane.columnIndex="2"/>
+                    <Label text="STATUS" styleClass="th" GridPane.columnIndex="3"/>
+                    <Label text="CRIADO" styleClass="th" GridPane.columnIndex="4"/>
+                </GridPane>
+
+                <ListView fx:id="pedidosListView" styleClass="atendimentos-list" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <ScrollPane fx:id="colunaDireitaScroll" styleClass="right-scroll"
+                        fitToWidth="true" prefWidth="230" minWidth="220"
+                        hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <VBox spacing="12">
+
+                    <VBox styleClass="panel, panel-blue" spacing="8">
+                        <Label text="BUSCAR" styleClass="panel-code"/>
+                        <Label text="Consultar por ID" styleClass="panel-title"/>
+
+                        <TextField fx:id="idBuscarField" promptText="ID do pedido" styleClass="field"/>
+
+                        <Button text="Buscar" styleClass="action-button, action-blue"
+                                onAction="#buscarPorId" maxWidth="Infinity"/>
+
+                        <VBox fx:id="resultadoBuscaBox" styleClass="next-card, next-card-compact" spacing="4" alignment="CENTER_LEFT">
+                            <Label fx:id="resultadoNomeLabel" text="—" styleClass="next-name"/>
+                            <Label fx:id="resultadoCargaLabel" text="" styleClass="next-tipo" wrapText="true"/>
+                            <HBox spacing="8">
+                                <Label fx:id="resultadoPrioridadeBadge" text="" styleClass="badge, badge-gray"/>
+                                <Label fx:id="resultadoStatusBadge" text="" styleClass="badge, badge-gray"/>
+                            </HBox>
+                            <Label fx:id="resultadoHorarioLabel" text="" styleClass="next-horario"/>
+                            <HBox fx:id="resultadoIdBox" spacing="6" alignment="CENTER_LEFT"/>
+                        </VBox>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-teal" spacing="8">
+                        <Label text="ATUALIZAR" styleClass="panel-code"/>
+                        <Label text="Editar pedido" styleClass="panel-title"/>
+
+                        <TextField fx:id="idAtualizarField" promptText="ID do pedido" styleClass="field"/>
+
+                        <TextArea fx:id="novaDescricaoField" promptText="Nova descrição (opcional)"
+                                  styleClass="field, text-area-field" wrapText="true" prefRowCount="2"/>
+
+                        <ComboBox fx:id="novaPrioridadeCombo" promptText="Nova prioridade (opcional)"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Atualizar" styleClass="action-button, action-teal"
+                                onAction="#atualizarPedido" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox styleClass="panel, panel-amber" spacing="8">
+                        <Label text="STATUS" styleClass="panel-code"/>
+                        <Label text="Alterar status" styleClass="panel-title"/>
+
+                        <TextField fx:id="idStatusField" promptText="ID do pedido" styleClass="field"/>
+
+                        <ComboBox fx:id="novoStatusCombo" promptText="Novo status"
+                                  styleClass="field" maxWidth="Infinity"/>
+
+                        <Button text="Alterar" styleClass="action-button, action-amber"
+                                onAction="#alterarStatus" maxWidth="Infinity"/>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+
+        </HBox>
+    </center>
+
+</BorderPane>
